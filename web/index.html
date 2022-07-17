@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="noindex">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600&family=Kanit:wght@600&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.3.21/plyr.css">
+    <link rel="stylesheet" href="https://shotstack.io/assets/css/main.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Shotstack Pexels Video Maker Demo</title>
+    <meta name="description" content="Search the Pexels stock footage video library and the Shotstack API will automatically compile an edit with music and a title."/>
+</head>
+<body>
+    <div class="container content my-4">
+        <div class="row">
+            <div class="col-5">
+                <form class="jumbotron" method="post">
+                    <div class="form-group" id="search-group">
+                        <label for="search" class="display-4">Make a video about</label>
+                        <input name="search" 
+                               type="text"
+                               pattern="[a-zA-Z0-9 ]+"
+                               oninvalid="setCustomValidity('Only letters and numbers are allowed')"
+                               oninput="setCustomValidity('')"
+                               class="form-control form-control-lg"
+                               id="search"
+                               placeholder="cats mountains people etc..."
+                               maxlength="30"
+                               required
+                        >
+                    </div>
+                    <div class="form-group" id="title-group">
+                        <label for="title">Add a Title</label>
+                        <input name="title"
+                               type="text"
+                               pattern="[a-zA-Z0-9 ]+"
+                               oninvalid="setCustomValidity('Only letters and numbers are allowed')"
+                               oninput="setCustomValidity('')"
+                               class="form-control"
+                               id="title"
+                               placeholder="My Movie"
+                               maxlength="30"
+                               required
+                        >
+                    </div>
+                    <div class="form-group" id="soundtrack-group">
+                        <label for="soundtrack">Choose a Soundtrack</label>
+                        <select name="soundtrack" id="soundtrack" class="custom-select" required>
+                            <option value="">Choose...</option>
+                            <option value="disco">Disco</option>
+                            <option value="freeflow">Freeflow</option>
+                            <option value="melodic">Melodic</option>
+                        </select>
+                    </div>
+                    <div class="alert alert-danger d-none" role="alert" id="errors"></div>
+                    <button type="submit" class="btn btn-primary" id="submit-video">Create Video</button>
+                </form>
+                <div class="mt-3">
+                    <img class="mr-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABLFBMVEUAAAD///8XFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRYXFRZ95wE6AAAAY3RSTlMAAAECAwQHCAwNDxAREhQVFhgZHh8hKDEyMzQ1ODk8Pj9CRllcXl9gYmNkZWdob3N0dXh6foqPl5udnqSpqqutrrC3ucHCw8TJ0NHS1trb3N7f4eLj6Orr7PHy8/X29/r7/P5vXnskAAABfUlEQVR4AYXReVfTQBQF8GsgEVKCRJCluIgsEkFxQRaIEBFFILSAoqR7e7//d3DenLTNknP8/TN/zHt3zj2DoUnv8LJO1i8PvUnkzfkdDnT8OaTZez2m9Pbs1Po1c64TIUsRC0RLiC1ELBQtQJu4IRkeR6m745DkzQTEAZUVWN6dqnh6qqreeRZWqBxAKVPMS5XZESgjs1JgnqIMIKBYRMYiRQC4XYo1ZKxRdF1sUvx2kOH8otiET7GOnHUKH6FOspFj67dDNKncosAtlSYoKihQpQBFDQVqFPExhZypePWcYhU5qxTn2Ke4MJFhXlDsY5naDjJ2qC1jvEHtyEXC4yNqjXFgl/z88jvZ/rJRHtXhz94GbVLbBTDdYm/L+kklMKAYX9nXmoayTfLpE/mb59BesG8bwjwjv6HkfXo1Cu0RY2cmNLdKvsNQidSqLmIzFfLHh9cfH6YGKjMYcE4oSsmBEwcJxps/6YG/GwbSxrau7i1o1v3V+zH0PfiPf1zqq3ByA7pMAAAAAElFTkSuQmCC">
+                    <a href="https://github.com/shotstack/pexels-demo" target="_blank">Get the Source Code</a>
+                </div>
+            </div>
+            <div class="col-7 video-container">
+                <div id="instructions" class="row justify-content-center align-items-center">
+                    <div class="col-6 text-center jumbotron border">
+                        <p>Your video will display here</p>
+                    </div>
+                </div>
+                <div id="status" class="row justify-content-center align-items-center d-none">
+                    <div class="col-6 text-center">
+                        <i class="fas fa-2x"></i>
+                        <p></p>
+                        <div class="progress" style="height: 2px;">
+                            <div style="width: 0;" class="progress-bar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small>Hold tight, rendering may take a minute...</small>
+                    </div>
+                </div>
+                <video id="player" playsinline controls></video>
+                <div id="json" class="row">
+                    <div class="col">
+                        <p>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#jsonExpand" role="button" aria-expanded="false" aria-controls="jsonExpand">
+                                Show JSON
+                            </a>
+                        </p>
+                        <div class="collapse" id="jsonExpand">
+                            <div class="card card-body"><pre><code class="json-container"></code></pre></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://cdn.plyr.io/3.3.21/plyr.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

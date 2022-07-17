@@ -1,0 +1,4 @@
+Flask==2.1.2
+pexels_api_py==0.0.5
+python-dotenv==0.20.0
+shotstack_sdk==0.2.0
