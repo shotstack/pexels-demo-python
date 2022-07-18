@@ -4,7 +4,6 @@ import shotstack_sdk as shotstack
 import os
 
 from pexelsapi.pexels                import Pexels
-from shotstack_sdk.model.image_asset import ImageAsset
 from shotstack_sdk.api               import edit_api
 from shotstack_sdk.model.clip        import Clip
 from shotstack_sdk.model.track       import Track
@@ -64,9 +63,6 @@ def submit(data):
         )
 
         for index, video in enumerate(search_videos.get('videos')):
-            if index >= max_clips:
-                break
-            
             hd_file = None
             videos  = video.get('video_files')
 
