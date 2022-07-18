@@ -4,6 +4,7 @@ import shotstack_sdk as shotstack
 import os
 
 from pexelsapi.pexels                import Pexels
+from shotstack_sdk.model.image_asset import ImageAsset
 from shotstack_sdk.api               import edit_api
 from shotstack_sdk.model.clip        import Clip
 from shotstack_sdk.model.track       import Track
@@ -63,6 +64,9 @@ def submit(data):
         )
 
         for index, video in enumerate(search_videos.get('videos')):
+            if index >= max_clips:
+                break
+            
             hd_file = None
             videos  = video.get('video_files')
 
@@ -86,6 +90,11 @@ def submit(data):
 
             video_clips.append(video_clip)
 
+            title_transition = Transition(
+                _in="fade",
+                out="fade"
+            )
+
         soundtrack = Soundtrack(
             src         = f"{shotstack_assets_url}music/{data.get('soundtrack')}.mp3",
             effect      = "fadeOut"
@@ -107,16 +116,11 @@ def submit(data):
             output      = output
         )
 
-        try:
-            return api_instance.post_render(edit)['response']
-        except Exception as e:
-            print(f"Unable to resolve API call: {e}") 
+        return api_instance.post_render(edit)['response']
 
 def status(render_id):
     with shotstack.ApiClient(configuration) as api_client:
         api_instance = edit_api.EditApi(api_client)
 
-        try:
-            return api_instance.get_render(render_id, data=False, merged=True)['response']
-        except Exception as e:
-            print(f"Unable to resolve API call: {e}") 
+        
+        return api_instance.get_render(render_id, data=False, merged=True)['response']
