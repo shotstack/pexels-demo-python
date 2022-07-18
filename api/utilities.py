@@ -86,11 +86,6 @@ def submit(data):
 
             video_clips.append(video_clip)
 
-            title_transition = Transition(
-                _in="fade",
-                out="fade"
-            )
-
         soundtrack = Soundtrack(
             src         = f"{shotstack_assets_url}music/{data.get('soundtrack')}.mp3",
             effect      = "fadeOut"
