@@ -66,4 +66,4 @@ cd api
 flask run
 ```
 
-The visit [http://127.0.0.1:5000](http://127.0.0.1:5000)
+Then visit [http://127.0.0.1:5000](http://127.0.0.1:5000)
