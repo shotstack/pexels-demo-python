@@ -123,4 +123,4 @@ def status(render_id):
         api_instance = edit_api.EditApi(api_client)
 
         
-        return api_instance.get_render(render_id, data=False, merged=True)['response']
+        return api_instance.get_render(render_id, data=True, merged=True)['response']
