@@ -1,4 +1,4 @@
 Flask==2.0.3
 pexels_api_py==0.0.5
 python-dotenv==0.20.0
-shotstack_sdk==0.2.4
+shotstack_sdk==0.2.5
