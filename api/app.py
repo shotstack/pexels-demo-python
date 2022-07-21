@@ -40,9 +40,9 @@ def render(renderId):
             "status":   "success",
             "message":  "OK",
             "data":     {
-                "data":     reply['data'],
-                "status":   reply['status'],
-                "url":      reply['url']
+                "data":     reply.get('data', None),
+                "status":   reply.get('status', None),
+                "url":      reply.get('url', None)
             }
         })
     except Exception as e:
