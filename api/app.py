@@ -34,14 +34,15 @@ def post_render():
 @app.route('/demo/shotstack/<renderId>')
 def render(renderId):
     try:
-        reply = status(renderId)
+        reply = status(renderId).to_dict()
 
         return jsonify({
             "status":   "success",
             "message":  "OK",
             "data":     {
-                "status":   reply.status,
-                "url":      reply.url
+                "data":     reply['data'],
+                "status":   reply['status'],
+                "url":      reply['url']
             }
         })
     except Exception as e:
